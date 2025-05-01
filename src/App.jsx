@@ -4,8 +4,23 @@ import './App.css';
 import DeclinePage from './DeclinePage.jsx';
 import AcceptPage from './AcceptPage.jsx';
 import ThankYouPage from './ThankYouPage.jsx';
+import ZombieFollower from './ZombieFollower';
+import SlimeFollower from './SlimeFollower';
+
 
 import grassblock from './assets/grassblock.jpg';
+
+const slimeCount = 6; // how many slimes you want
+
+const slimeFollowers = Array.from({ length: slimeCount }, (_, i) => (
+  <SlimeFollower
+    key={i}
+    speed={1 + i * 0.3} // each slime a bit slower or faster
+    offsetX={Math.random() * 100 - 50}
+    offsetY={Math.random() * 100 - 50}
+  />
+));
+
 
 function Home() {
   const [showExplosion, setShowExplosion] = useState(true);
@@ -15,7 +30,7 @@ function Home() {
     const timer = setTimeout(() => setShowExplosion(false), 1500);
     return () => clearTimeout(timer);
   }, []);
-  
+
   const backgroundStyle = {
     backgroundImage: `url(${grassblock})`,
     backgroundSize: 'cover',
@@ -31,6 +46,8 @@ function Home() {
 
   return (
     <div style={backgroundStyle}>
+      {slimeFollowers}
+
       {showExplosion && (
         <img
           src="/assets/explosion.gif"
