@@ -1,0 +1,65 @@
+@font-face {
+  font-family: 'MinecraftOne';
+  src: url('/assets/Minecraft1.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'MinecraftTwo';
+  src: url('/assets/Minecraft2.ttf') format('truetype');
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'MinecraftOne', sans-serif;
+}
+
+.heading {
+  font-family: 'MinecraftTwo', sans-serif;
+}
+
+.decline-heading {
+  font-family: 'MinecraftOne', sans-serif;
+  font-size: 3rem;
+  color: white;
+  margin-top: -20 rem;
+}
+
+.App {
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 2rem;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+button {
+  background-color: #47a447;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin: 0.5rem;
+}
+
+button:hover {
+  background-color: #398439;
+}
+
+.explosion-gif {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 3000px;
+  z-index: 1000;
+  animation: fadeOut 2s ease forwards;
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
