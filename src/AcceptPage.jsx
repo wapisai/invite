@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // 👈 Add this
 import './App.css';
 import grassblock from './assets/grassblock.jpg';
 
 function AcceptPage() {
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     console.log('Name:', name);
@@ -19,12 +21,9 @@ function AcceptPage() {
     });
 
     if (res.ok) {
-      alert(`RSVP submitted! See you there, ${name} aka ${username}!`);
-      // Optionally reset fields
-      setName('');
-      setUsername('');
+      navigate('/thank-you', { state: { name, username } });
     } else {
-      alert('Submission failed. Please try again.');
+      alert('Submission failed. Try again.');
     }
   };
 

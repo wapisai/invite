@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-route
 import './App.css';
 import DeclinePage from './DeclinePage.jsx';
 import AcceptPage from './AcceptPage.jsx';
+import ThankYouPage from './ThankYouPage.jsx';
 
 import grassblock from './assets/grassblock.jpg';
 
@@ -14,7 +15,7 @@ function Home() {
     const timer = setTimeout(() => setShowExplosion(false), 1500);
     return () => clearTimeout(timer);
   }, []);
-
+  
   const backgroundStyle = {
     backgroundImage: `url(${grassblock})`,
     backgroundSize: 'cover',
@@ -54,6 +55,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/accept" element={<AcceptPage />} />
         <Route path="/decline" element={<DeclinePage />} />
+        <Route path="/thank-you" element={<ThankYouPage />} />
       </Routes>
     </Router>
   );
