@@ -18,6 +18,7 @@ function AcceptPage() {
       headers: {
         'Content-Type': 'application/json',
       },
+      redirect: "follow",
     });
 
     if (res.ok) {
