@@ -1,8 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import grassblock from './assets/grassblock.jpg';
 
 function AcceptPage() {
+  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
+
+  const handleSubmit = async () => {
+    console.log('Name:', name);
+    console.log('Minecraft Username:', username);
+
+    const res = await fetch('https://script.google.com/macros/s/AKfycbzJh1NVDrVFk8smKhLh-a4Mjcri3N7MxLI1rgc4Nwpa_rbOjfdRcYB0Jj4-xACzl-Sn-Q/exec', {
+      method: 'POST',
+      body: JSON.stringify({ name, username }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (res.ok) {
+      alert(`RSVP submitted! See you there, ${name} aka ${username}!`);
+      // Optionally reset fields
+      setName('');
+      setUsername('');
+    } else {
+      alert('Submission failed. Please try again.');
+    }
+  };
+
   const backgroundStyle = {
     backgroundImage: `url(${grassblock})`,
     backgroundSize: 'cover',
@@ -20,18 +45,26 @@ function AcceptPage() {
     <div style={backgroundStyle}>
       <div className="App">
         <h1>WOW this is SO SLAY!!!</h1>
-        <p>We can't wait to see you there 🥳</p>
+        <p>Location: Punggol Central Parc Centros Blk 88</p>
+        <p>Time: 6pm</p>
+        <p>BRING YOUR MINECRAFT SPIRIT!!!</p>
+
         <input
           type="text"
           placeholder="Your name"
           className="input-box"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
         <input
           type="text"
           placeholder="Minecraft username"
           className="input-box"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
-        <button>Submit RSVP</button>
+
+        <button onClick={handleSubmit}>IM COMING!!!</button>
       </div>
     </div>
   );
