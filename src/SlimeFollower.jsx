@@ -1,47 +1,38 @@
 import React, { useEffect, useRef } from 'react';
 import slime from './assets/slime.gif';
 
-const SlimeFollower = () => {
+const SlimeFollower = ({ speed = 1, offsetX = 0, offsetY = 0, mousePosRef }) => {
+  // useRef for current slime position
   const slimeRef = useRef(null);
-  const mousePos = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
-  const slimePos = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+  const slimePos = useRef({
+    x: window.innerWidth / 2 + offsetX,
+    y: window.innerHeight / 2 + offsetY,
+  });
 
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      mousePos.current = { x: e.clientX, y: e.clientY };
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-
     const interval = setInterval(() => {
-      const dx = mousePos.current.x - slimePos.current.x;
-      const dy = mousePos.current.y - slimePos.current.y;
+      const { x: targetX, y: targetY } = mousePosRef.current;
+
+      const dx = targetX - slimePos.current.x;
+      const dy = targetY - slimePos.current.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
 
-      const speed = 0.000001; // pixels per frame (adjust to your liking)
-
       if (distance > 1) {
-        // Normalize direction vector
         const moveX = (dx / distance) * speed;
         const moveY = (dy / distance) * speed;
 
-        // Update slime position
         slimePos.current.x += moveX;
         slimePos.current.y += moveY;
 
-        // Apply styles
         if (slimeRef.current) {
           slimeRef.current.style.left = `${slimePos.current.x}px`;
           slimeRef.current.style.top = `${slimePos.current.y}px`;
         }
       }
-    }, 16); // ~60fps
+    }, 16);
 
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      clearInterval(interval);
-    };
-  }, []);
+    return () => clearInterval(interval);
+  }, [speed, mousePosRef]);
 
   return (
     <img

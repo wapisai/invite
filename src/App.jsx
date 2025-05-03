@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
 import DeclinePage from './DeclinePage.jsx';
@@ -10,21 +10,31 @@ import SlimeFollower from './SlimeFollower';
 
 import grassblock from './assets/grassblock.jpg';
 
-const slimeCount = 6; // how many slimes you want
-
-const slimeFollowers = Array.from({ length: slimeCount }, (_, i) => (
-  <SlimeFollower
-    key={i}
-    speed={1 + i * 0.3} // each slime a bit slower or faster
-    offsetX={Math.random() * 100 - 50}
-    offsetY={Math.random() * 100 - 50}
-  />
-));
-
-
 function Home() {
   const [showExplosion, setShowExplosion] = useState(true);
   const navigate = useNavigate();
+  const slimeCount = 1;
+
+  const mousePosRef = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      mousePosRef.current = { x: e.clientX, y: e.clientY };
+    };
+  
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+   
+  const slimeFollowers = Array.from({ length: slimeCount }, (_, i) => (
+    <SlimeFollower
+      key={i}
+      speed={1 + i * 0.3}
+      offsetX={Math.random() * 100 - 50}
+      offsetY={Math.random() * 100 - 50}
+      mousePosRef={mousePosRef} // 👈 useRef instead of state
+    />
+  ));  
 
   useEffect(() => {
     const timer = setTimeout(() => setShowExplosion(false), 1500);
@@ -64,6 +74,7 @@ function Home() {
     </div>
   );
 }
+
 
 function App() {
   return (
